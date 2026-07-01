@@ -1,42 +1,61 @@
 package com.example.recipes.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+private val LightCoffeeScheme = lightColorScheme(
+    primary = Espresso,
+    onPrimary = CreamSurface,
+    primaryContainer = Foam,
+    onPrimaryContainer = EspressoDeep,
+    secondary = Latte,
+    onSecondary = CreamSurface,
+    secondaryContainer = FoamDeep,
+    onSecondaryContainer = EspressoDeep,
+    tertiary = Mocha,
+    onTertiary = CreamSurface,
+    background = Cream,
+    onBackground = CoffeeText,
+    surface = CreamSurface,
+    onSurface = CoffeeText,
+    surfaceVariant = FoamDeep,
+    onSurfaceVariant = CoffeeMuted,
+    outline = CoffeeOutline,
+    error = Terracotta,
+    onError = CreamSurface
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+private val DarkCoffeeScheme = darkColorScheme(
+    primary = FoamLight,
+    onPrimary = EspressoDeep,
+    primaryContainer = Espresso,
+    onPrimaryContainer = Foam,
+    secondary = CaramelLight,
+    onSecondary = EspressoDeep,
+    secondaryContainer = EspressoVariant,
+    onSecondaryContainer = CreamOnDark,
+    tertiary = Caramel,
+    onTertiary = EspressoDeep,
+    background = EspressoBg,
+    onBackground = CreamOnDark,
+    surface = EspressoSurface,
+    onSurface = CreamOnDark,
+    surfaceVariant = EspressoVariant,
+    onSurfaceVariant = CoffeeOutline,
+    outline = Mocha,
+    error = Caramel,
+    onError = EspressoDeep
 )
 
 @Composable
 fun MyRecipesTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    val colorScheme = if (darkTheme) DarkCoffeeScheme else LightCoffeeScheme
 
     MaterialTheme(
         colorScheme = colorScheme,

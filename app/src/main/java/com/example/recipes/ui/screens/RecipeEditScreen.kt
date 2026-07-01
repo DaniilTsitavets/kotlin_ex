@@ -21,14 +21,17 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.recipes.data.Difficulty
 import com.example.recipes.data.RecipeType
 import com.example.recipes.viewmodel.RecipeViewModel
 
@@ -45,13 +48,21 @@ fun RecipeEditScreen(
         topBar = {
             TopAppBar(
                 title = {
-                    Text(if (state.isEditing) "Редактировать рецепт" else "Новый рецепт")
+                    Text(
+                        text = if (state.isEditing) "Редактировать рецепт" else "Новый рецепт",
+                        fontWeight = FontWeight.SemiBold
+                    )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Назад")
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         }
     ) { innerPadding ->
@@ -96,6 +107,31 @@ fun RecipeEditScreen(
                         enabled = !state.isEditing
                     )
                     Text(type.displayName)
+                }
+            }
+
+            Text(
+                text = "Сложность",
+                style = MaterialTheme.typography.labelLarge
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Difficulty.entries.forEach { difficulty ->
+                    Row(
+                        modifier = Modifier.selectable(
+                            selected = state.difficulty == difficulty,
+                            onClick = { viewModel.onDifficultyChange(difficulty) }
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = state.difficulty == difficulty,
+                            onClick = { viewModel.onDifficultyChange(difficulty) }
+                        )
+                        Text(difficulty.displayName)
+                    }
                 }
             }
 

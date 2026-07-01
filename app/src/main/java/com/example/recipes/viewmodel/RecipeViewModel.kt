@@ -2,6 +2,7 @@ package com.example.recipes.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.recipes.data.Difficulty
 import com.example.recipes.data.Recipe
 import com.example.recipes.data.RecipeRepository
 import com.example.recipes.data.RecipeType
@@ -35,6 +36,10 @@ class RecipeViewModel(private val repository: RecipeRepository) : ViewModel() {
         _uiState.update { it.copy(type = value) }
     }
 
+    fun onDifficultyChange(value: Difficulty) {
+        _uiState.update { it.copy(difficulty = value) }
+    }
+
     fun onIngredientsChange(value: String) {
         _uiState.update { it.copy(ingredients = value) }
     }
@@ -65,6 +70,7 @@ class RecipeViewModel(private val repository: RecipeRepository) : ViewModel() {
         _uiState.value = RecipeFormState(
             title = recipe.title,
             type = recipe.type,
+            difficulty = recipe.difficulty,
             ingredients = recipe.ingredients,
             instructions = recipe.instructions,
             cookingTime = recipe.cookingTimeMinutes.toString(),
@@ -84,6 +90,7 @@ class RecipeViewModel(private val repository: RecipeRepository) : ViewModel() {
             id = editingId ?: 0,
             title = state.title.trim(),
             type = state.type,
+            difficulty = state.difficulty,
             ingredients = state.ingredients.trim(),
             instructions = state.instructions.trim(),
             cookingTimeMinutes = state.cookingTime.toIntOrNull() ?: 0,
